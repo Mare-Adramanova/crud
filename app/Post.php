@@ -3,16 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Comment;
+
 
 class Post extends Model
 {
     protected $fillable = ['title','content','slug','description'];
 
-    public $validated = [
-
-        'title' => ['required', 'min:5', 'max:10'],
-        'content' => 'required',
-        'slug' => 'required',
-        'description' => ['required', 'email:rfc']
-        ];
+   public function comments(){
+       return $this->hasMany(Comment::class);
+   }
 }

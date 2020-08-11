@@ -28,7 +28,7 @@ class PostController extends Controller
     function store( PostFormRequest $request){
      
          Post::create($request->all());
-         return redirect('/posts');
+         return redirect()->route('posts.index');
     }
 
     function show(Post $post){
@@ -40,7 +40,7 @@ class PostController extends Controller
 
     function destroy(Post $post){
         $post->delete();
-        return redirect('/posts');
+        return redirect()->route('posts.index');
     }
 
     function edit(Post $post){
@@ -51,7 +51,7 @@ class PostController extends Controller
         
        
             $post->update($request->all());
-            return redirect('/posts');
+            return redirect()->route('posts.index');
     }
 
 }

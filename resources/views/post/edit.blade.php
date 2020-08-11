@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<form action="/posts/{{ $post->id }}" method="POST">
+<form action="{{ route('posts.update', $post->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
