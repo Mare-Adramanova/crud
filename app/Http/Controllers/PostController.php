@@ -34,8 +34,8 @@ class PostController extends Controller
     function show(Post $post){
       
         $post['edited_at'] = date_diff($now=now(), $post['updated_at']);
-       
-        return view('/post/index', ['posts'=>[$post]]);
+        $admin = true;
+        return view('/post/index', ['posts'=>[$post], 'admin'=>$admin]);
     }
 
     function destroy(Post $post){

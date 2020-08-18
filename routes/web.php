@@ -24,4 +24,11 @@ Route::get('/posts/{post}', 'PostController@show')->name('posts.show');
 Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy');
 Route::get('/posts/{post}/edit', 'PostController@edit')->name('posts.edit');
 Route::put('/posts/{post}', 'PostController@update')->name('posts.update');
+
+Route::post('/comments', 'CommentController@store')->name('comments.store');
+Route::delete('/comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
+Route::get('/comments', 'CommentController@trash')->name('comments.trash');
+Route::get('/comments/{comment}', 'CommentController@restore')->name('comments.restore');
+Route::delete('/trashed-comments/{comment}', 'CommentController@remove')->name('comments.remove');
+Route::put('/comments/{comment}', 'CommentController@show')->name('comments.show');
  
