@@ -31,4 +31,7 @@ Route::get('/comments', 'CommentController@trash')->name('comments.trash');
 Route::get('/comments/{comment}', 'CommentController@restore')->name('comments.restore');
 Route::delete('/trashed-comments/{comment}', 'CommentController@remove')->name('comments.remove');
 Route::put('/comments/{comment}', 'CommentController@show')->name('comments.show');
+
+Route::post('ratings', 'RatingController@store')->name('ratings.store');
+Route::get('ratings', 'RatingController@show')->name('ratings.show');
  

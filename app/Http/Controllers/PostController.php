@@ -35,6 +35,10 @@ class PostController extends Controller
       
         $post['edited_at'] = date_diff($now=now(), $post['updated_at']);
         $admin = true;
+        $avg_ratings = $post->ratings()->avg('rating');
+        $rating = number_format($avg_ratings);
+        $post['rating'] = $rating;
+        
         return view('/post/index', ['posts'=>[$post], 'admin'=>$admin]);
     }
 
