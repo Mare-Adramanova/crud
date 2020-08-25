@@ -9,6 +9,11 @@ use SebastianBergmann\Diff\Diff;
 
 class PostController extends Controller
 {
+    function __construct()
+    {
+       // $this->middleware('auth');
+    }
+
     function index() {
         $posts = Post::all();
         $collected_posts = collect($posts);

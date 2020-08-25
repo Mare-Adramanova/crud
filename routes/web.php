@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
   
-   return redirect()->route('posts.index');
+   return redirect()->route('home');
 });
 Route::get('/posts', 'PostController@index')->name('posts.index');
-Route::get('/posts/create', 'PostController@create')->name('posts.create');
+Route::get('/posts/create', 'PostController@create')->name('posts.create')->middleware('auth');
 Route::post('/posts', 'PostController@store')->name('posts.store');
 Route::get('/posts/{post}', 'PostController@show')->name('posts.show');
 Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy');
@@ -35,3 +35,6 @@ Route::put('/comments/{comment}', 'CommentController@show')->name('comments.show
 Route::post('ratings', 'RatingController@store')->name('ratings.store');
 Route::get('ratings', 'RatingController@show')->name('ratings.show');
  
+Auth::routes(['register'=>false]);
+
+Route::get('/home', 'HomeController@index')->name('home');

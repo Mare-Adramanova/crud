@@ -17,4 +17,8 @@ class Post extends Model
     public function ratings(){
         return $this->hasMany(Rating::class);
     }
+
+    public function categories(){
+        return $this->belongsToMany('App\Category');
+    }
 }
