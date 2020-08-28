@@ -38,3 +38,6 @@ Route::get('ratings', 'RatingController@show')->name('ratings.show');
 Auth::routes(['register'=>false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/categories', 'CategoryController@store')->name('categories.store');
+

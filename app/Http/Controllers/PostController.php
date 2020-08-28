@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\PostFormRequest;
 use App\Post;
+use App\Comment;
 use Illuminate\Http\Request;
 use SebastianBergmann\Diff\Diff;
 
@@ -15,24 +17,77 @@ class PostController extends Controller
     }
 
     function index() {
-        $posts = Post::all();
+        
+        if(request('category')){
+            $posts = Category::where('type', request('category'))->firstOrFail()->posts;
+       
+        //$posts = Post::all();
+        $collected_posts = collect($posts);
+        $maped_posts = $collected_posts->map(function($element){
+           // $now = now(); 
+           $element['edited_at'] = date_diff($now=now(), $element['updated_at']);
+           return $element;
+        }); }
+        else{
+            $posts = Post::all();
         $collected_posts = collect($posts);
         $maped_posts = $collected_posts->map(function($element){
            // $now = now(); 
            $element['edited_at'] = date_diff($now=now(), $element['updated_at']);
            return $element;
         });
-        
+
+        }
         return view('post/index', ['posts' => $maped_posts]);
     }
 
     function create(){
-        return view('post.create');
+        
+        $categories = Category::all();
+        return view('post.create', ['categories' => $categories]);
     }
 
     function store( PostFormRequest $request){
-     
-         Post::create($request->all());
+     //dd($request->all());
+      //Post::create($request->all());
+      $post = new Post;
+      $post->title = $request->title;
+      $post->content = $request->content;
+      $post->slug = $request->slug;
+      $post->description = $request->description;
+      $post->save();
+        
+      
+          foreach($request->othertype as $type){
+              if($type != null){
+                  $explodet_type  = explode(',', $type);
+                  
+            $category = new Category;
+           foreach($explodet_type as $explode){
+               
+               $category = new Category;
+               $category->type = $explode;
+               $category->save();
+               $post->categories()->attach($category);
+           }
+
+           
+           
+            
+            
+        }else{
+            $category = Category::find($request['type']);
+            // dd($request['type']);
+             $post->categories()->attach($category);
+       
+        }
+          }
+          
+          
+      
+      
+       
+
          return redirect()->route('posts.index');
     }
 

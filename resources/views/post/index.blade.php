@@ -16,7 +16,7 @@
             <p class="card-text col-md-11">{{ $post->content }}</p>    
             <h6 class="card-text col-md-7"> last edited at: {{ $post->edited_at->y }} : year - {{ $post->edited_at->m }} : month - {{ $post->edited_at->d }} : days; </h6>
             @if (Route::currentRouteName() === 'posts.show')
-               @if ($admin == 'true')
+               {{-- @if ($admin == 'true') --}}
                <div class="card-text ratings col-md-5 ">
                 <form action="{{ route('ratings.store', ['post_id'=>$post->id]) }}" method="POST">
                     @csrf
@@ -40,10 +40,22 @@
                         
 
             </div>
+               @auth
                    
+                 
                
-               
-                <a href="{{ route('comments.trash') }}" class="btn btn-primary"> Recycle Bin</a>
+            <div class="card bg-dark flex-row flex-wrap" >   
+                <a href="{{ route('comments.trash') }}" class="btn btn-primary mt-3 mb-3"> Recycle Bin</a>
+                <div class="card-body card-block">
+                    Category:
+                    @foreach ($post->categories as $category)
+                        <a href="{{ route('posts.index', ['category'=>$category->type]) }}" class="btn btn-primary">{{$category->type}}</a>
+                        
+                    @endforeach
+
+
+                </div>
+            </div>
                 
                 @if ($post->rating > 0 )
             <div class="post_rating">
@@ -65,8 +77,12 @@
 
                 <ul class="list-group list-group-flush ">
                  @foreach ($post->comments as $comment)
+
+                    
                    
+                    @if ($comment->status != "" && $comment->status === 'open' && $comment->status !== 'approved')
                         
+                    
                    
                     <li class="list-group-item bg-dark " style="color:{{ $comment->color }}">{!! htmlspecialchars_decode($comment->text) !!}
                         <form action="{{ route('comments.destroy',  ['comment'=>$comment->id, 'post_id'=>$post->id]) }}" method="POST" class="col-md-3">
@@ -76,16 +92,15 @@
                             <input type="hidden" name="id" value="{{ $comment->id }}">
                             <input type="submit" class="btn btn-primary float-right" value="delete">
                         </form>
-                        {{-- <a href="{{ route('comments.show', $comment->id) }}" class="btn btn-info btn-sm "> --}}
+                        
                             <form action="{{ route('comments.show', $comment->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <input type="submit" value="Like">
                             </form>
-                            {{-- <span class="glyphicon glyphicon-thumbs-up"></span> Like --}}
-                        {{-- </a> --}}
+                            
                     </li>
-                   
+                    @endif    
                  @endforeach
 
             </ul> 
@@ -121,8 +136,58 @@
                 </form>
                 <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary float-left ml-5">Edit</a>
             </div>
-            
+           
+                
+            @else
+                @if ($post->rating > 0 )
+                 <div class="post_rating">
+                    <span class="rating_icon">
+                    
+                    Rating :
+                    @for($i = 0; $i < $post->rating; $i++)
+                       <span class="fa fa-star light">&#9733;</span>
+                    @endfor
+                    @for($i = 0; $i < 5 - $post->rating; $i++)
+                       <span class="fa fa-star ">&#9733;</span>
+                    @endfor
+                 </span>
+
+            </div>
+                
             @endif
+                
+            
+            @foreach ($post->comments as $comment)
+            
+                @if ($comment->status == 'approved')
+                    <div class="card-text">
+                        <li class="list-group-item bg-dark " style="color:{{ $comment->color }}">{!! htmlspecialchars_decode($comment->text) !!}
+                    </div>
+                 @endif
+             @endforeach
+                
+            
+            <div class="card-text">
+                <form class="form-group" action="{{ route('comments.store', ['post_id'=>$post->id]) }}" method="POST">
+                        @csrf
+                        <label> Comment</label>
+                        <div class="row">
+    
+                            <textarea class="form-control col-md-7 mx-4" name="text" id="" ></textarea>
+                        
+                            <input type="submit" class="btn btn-primary col-md-2 ">
+                            
+                            <input type="color" name="color" id="color" class="col-md-1" value="#f0ad4e">
+    
+                        </div>
+                        
+                        
+                    </form>
+                </div> 
+                
+            
+            @endauth  
+            {{-- @endif --}}
             @endif
         </div>
         

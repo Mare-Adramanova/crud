@@ -28,6 +28,7 @@ class PostFormRequest extends FormRequest
             'content' => 'required',
             'slug' => 'required',
             'description' => ['required', 'email:rfc']
+            
         ];
     }
 }
