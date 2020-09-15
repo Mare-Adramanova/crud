@@ -8,6 +8,10 @@ use App\Post;
 use App\Comment;
 use Illuminate\Http\Request;
 use SebastianBergmann\Diff\Diff;
+use Symfony\Component\HttpFoundation\Cookie;
+
+
+
 
 class PostController extends Controller
 {
@@ -91,15 +95,21 @@ class PostController extends Controller
          return redirect()->route('posts.index');
     }
 
-    function show(Post $post){
-      
+    function show(Post $post, Request $request){
+        
         $post['edited_at'] = date_diff($now=now(), $post['updated_at']);
-        $admin = true;
+       
         $avg_ratings = $post->ratings()->avg('rating');
         $rating = number_format($avg_ratings);
         $post['rating'] = $rating;
+
+       
+      
+       
+        return view('/post/index', ['posts'=>[$post]]);
+    }
+    function get_cookies(){
         
-        return view('/post/index', ['posts'=>[$post], 'admin'=>$admin]);
     }
 
     function destroy(Post $post){

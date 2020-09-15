@@ -54,18 +54,13 @@ class CommentController extends Controller
    }
 
    public function show(Comment $comment){
-      
-      
-     // $comment['status']= 'approved';
+     
       
       $post = Post::findOrFail($comment->post_id);
-      //$comment = Comment::findOrFail($comment)->first();
-     // dd($post);
-      $post->comments()->create(['text'=>$comment->text, 'color'=>$comment->color, 'status'=>'approved'])->where('id', $comment);
-     //dd($post->comments()->get());
-      //$post['status'] = 'approved';
-      //dd($post);
-      //$admin = false;*/
+      
+      
+      $post->comments()->where('id', $comment->id)->update(['text'=>$comment->text, 'color'=>$comment->color, 'status'=>'approved']);
+     
       return redirect()->route('posts.show', ['post'=>$post, 'comment'=>$comment]);
 
    }

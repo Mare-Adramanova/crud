@@ -16,7 +16,7 @@
             <p class="card-text col-md-11">{{ $post->content }}</p>    
             <h6 class="card-text col-md-7"> last edited at: {{ $post->edited_at->y }} : year - {{ $post->edited_at->m }} : month - {{ $post->edited_at->d }} : days; </h6>
             @if (Route::currentRouteName() === 'posts.show')
-               {{-- @if ($admin == 'true') --}}
+               {{-- @if ($admin == 'true') --}}  
                <div class="card-text ratings col-md-5 ">
                 <form action="{{ route('ratings.store', ['post_id'=>$post->id]) }}" method="POST">
                     @csrf
@@ -42,7 +42,6 @@
             </div>
                @auth
                    
-                 
                
             <div class="card bg-dark flex-row flex-wrap" >   
                 <a href="{{ route('comments.trash') }}" class="btn btn-primary mt-3 mb-3"> Recycle Bin</a>
@@ -56,11 +55,13 @@
 
                 </div>
             </div>
-                
+               
+            
+               
                 @if ($post->rating > 0 )
             <div class="post_rating">
                 <span class="rating_icon">
-                    
+                   
                     Rating :
                     @for($i = 0; $i < $post->rating; $i++)
                        <span class="fa fa-star light">&#9733;</span>
@@ -71,9 +72,11 @@
                  </span>
 
             </div>
-                
+             @else
+             <h4>{{ 'You alredy voted' }}</h4>   
             @endif
-
+           
+            
 
                 <ul class="list-group list-group-flush ">
                  @foreach ($post->comments as $comment)
@@ -139,6 +142,8 @@
            
                 
             @else
+            
+          
                 @if ($post->rating > 0 )
                  <div class="post_rating">
                     <span class="rating_icon">
@@ -151,7 +156,7 @@
                        <span class="fa fa-star ">&#9733;</span>
                     @endfor
                  </span>
-
+                
             </div>
                 
             @endif
