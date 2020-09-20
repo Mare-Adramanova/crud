@@ -27,7 +27,8 @@ class PostFormRequest extends FormRequest
             'title' => ['required', 'min:5', 'max:10'],
             'content' => 'required',
             'slug' => 'required',
-            'description' => ['required', 'email:rfc']
+            'description' => ['required', 'email:rfc'],
+            'image'=>'required'
             
         ];
     }

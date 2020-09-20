@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-    <form action={{ route("posts.index") }} method="POST" class="was-validated">
+    <form action={{ route("posts.index") }} method="POST" class="was-validated" enctype="multipart/form-data">
         @csrf
     
         <div class="form-group">
@@ -77,6 +77,10 @@
             <input type="text" name="type[]" placeholder="categories" class="form-control">
             
         </div> --}}
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Image :</label>
+            <input name="image" type="file" class="form-control-file" id="exampleFormControlFile1">
+        </div>
 
     
         <input type="submit" class="btn btn-dark mb-5">

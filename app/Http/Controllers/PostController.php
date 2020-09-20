@@ -54,11 +54,17 @@ class PostController extends Controller
     function store( PostFormRequest $request){
      //dd($request->all());
       //Post::create($request->all());
+      $image = $request->file('image');
+      $filename = now()->timestamp .$image->getClientOriginalName();
+      //dd($image);
+      $image->storeAs('public', $filename);
+      
       $post = new Post;
       $post->title = $request->title;
       $post->content = $request->content;
       $post->slug = $request->slug;
       $post->description = $request->description;
+      $post->image = $filename; 
       $post->save();
         
       

@@ -8,7 +8,7 @@ use App\Comment;
 
 class Post extends Model
 {
-    protected $fillable = ['title','content','slug','description', 'type'];
+    protected $fillable = ['title','content','slug','description', 'type', 'image'];
 
     public function comments(){
        return $this->hasMany(Comment::class);

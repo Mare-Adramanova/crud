@@ -77,6 +77,8 @@ Route::get('cacheget', function(){
 
 Route::get('/curl', function(){
    $response = Http::get('//jsonplaceholder.typicode.com/todos');
+   //$response = Http::get('//localhost:8000/api/posts');
+   //dd($response);
    return $response;
 
 });
